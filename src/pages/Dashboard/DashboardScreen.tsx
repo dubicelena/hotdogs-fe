@@ -8,13 +8,14 @@ import {
   Select,
 } from "@mui/material";
 import { COLORS } from "../../constants/Colors";
+import CardDog from "./CardDog";
+import map from "../../assets/map.jpeg";
 
 export const DashboardScreen = () => {
   return (
     <div
       style={{
         margin: "0px 30px",
-        flex: "auto !important",
       }}
     >
       <Box
@@ -27,7 +28,7 @@ export const DashboardScreen = () => {
         <FormControl
           fullWidth
           sx={{
-            width: "50%",
+            width: "20%",
             marginTop: "20px",
             marginLeft: "8px",
             marginBottom: "16px",
@@ -47,7 +48,6 @@ export const DashboardScreen = () => {
             color="secondary"
             // onChange={handleChange}
             style={{
-              width: "50%",
               height: "50px",
             }}
           >
@@ -58,7 +58,7 @@ export const DashboardScreen = () => {
         <FormControl
           fullWidth
           sx={{
-            width: "50%",
+            width: "20%",
             marginTop: "20px",
             marginLeft: "8px",
             marginBottom: "16px",
@@ -73,12 +73,9 @@ export const DashboardScreen = () => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            // value={age}
             label="Gender"
             color="secondary"
-            // onChange={handleChange}
             style={{
-              width: "50%",
               height: "50px",
             }}
           >
@@ -92,74 +89,39 @@ export const DashboardScreen = () => {
           style={{
             width: "50%",
             display: "flex",
-            flexWrap: "wrap",
-            height: "100%",
+            flexDirection: "column",
           }}
         >
-          <Grid
-            container
-            rowSpacing={1}
-            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-            sx={{ height: "60%" }}
-          >
-            <Grid item xs={6}>
-              <Box
-                style={{
-                  backgroundColor: COLORS.PURPLE,
-                  margin: "10px",
-                  width: "90%",
-                  height: "90%",
-                  borderRadius: "8px",
-                }}
-              ></Box>
+          <div style={{ height: "80%" }}>
+            <Grid
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "50% 50%",
+                gap: "32px",
+                height: "100%",
+                width: "100%",
+                paddingRight: "50px",
+              }}
+            >
+              <CardDog />
+              <CardDog />
+              <CardDog />
+              <CardDog />
             </Grid>
-            <Grid item xs={6}>
-              <Box
-                style={{
-                  backgroundColor: COLORS.PURPLE,
-                  margin: "10px",
-                  width: "90%",
-                  height: "90%",
-                  borderRadius: "8px",
-                }}
-              ></Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box
-                style={{
-                  backgroundColor: COLORS.PURPLE,
-                  margin: "10px",
-                  width: "90%",
-                  height: "90%",
-                  borderRadius: "8px",
-                }}
-              ></Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box
-                style={{
-                  backgroundColor: COLORS.PURPLE,
-                  margin: "10px",
-                  width: "90%",
-                  height: "90%",
-                  borderRadius: "8px",
-                }}
-              ></Box>
-            </Grid>
-          </Grid>
+          </div>
           <div
             style={{
               width: "100%",
-              height: "30px",
+              height: "20%",
               display: "flex",
               alignItems: "start",
               justifyContent: "center",
+              marginTop: "20px",
             }}
           >
             <Pagination
               size="small"
               count={4}
-              //   page={resultPage.page}
               defaultPage={1}
               showFirstButton
               shape="rounded"
@@ -167,52 +129,32 @@ export const DashboardScreen = () => {
               siblingCount={1}
               boundaryCount={1}
               color="secondary"
-              //   onChange={handleChangePage}
             />
           </div>
         </div>
-
         <Box
-          style={{ width: "50%", height: "80%", backgroundColor: COLORS.BLACK }}
-        ></Box>
+          style={{
+            width: "50%",
+            height: "79%",
+            backgroundColor: COLORS.BLACK,
+            borderRadius: "10px",
+          }}
+        >
+          <Box
+            component="img"
+            src={map}
+            height="464px"
+            width="537px"
+            alt="map"
+            sx={{
+              height: "100%",
+              width: "100%",
+              alignSelf: "center",
+              borderRadius: "10px",
+            }}
+          ></Box>
+        </Box>
       </div>
     </div>
-    // <Box style={{ display: "flex", height: "100vh" }}>
-    //   <Box style={{ width: "50%", display: "flex", flexWrap: "wrap" }}>
-    //     <Box
-    //       style={{
-    //         backgroundColor: COLORS.BLACK,
-    //         margin: "10px",
-    //         width: "40%",
-    //         height: "25%",
-    //       }}
-    //     ></Box>
-    //     <Box
-    //       style={{
-    //         backgroundColor: COLORS.BLACK,
-    //         margin: "10px",
-    //         width: "40%",
-    //         height: "25%",
-    //       }}
-    //     ></Box>
-    //     <Box
-    //       style={{
-    //         backgroundColor: COLORS.BLACK,
-    //         margin: "10px",
-    //         width: "40%",
-    //         height: "25%",
-    //       }}
-    //     ></Box>
-    //     <Box
-    //       style={{
-    //         backgroundColor: COLORS.BLACK,
-    //         margin: "10px",
-    //         width: "40%",
-    //         height: "25%",
-    //       }}
-    //     ></Box>
-    //   </Box>
-    //   <Box style={{ width: "50%" }}>DRUGI</Box>
-    // </Box>
   );
 };

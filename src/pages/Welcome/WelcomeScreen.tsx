@@ -38,6 +38,7 @@ const styles = {
 export const WelcomeScreen = () => {
   const [isOpenRegistrationModal, setIsOpenRegistrationModal] = useState(false);
   const [isOpenLoginModal, setIsOpenLoginModal] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Box sx={styles.container}>
@@ -45,7 +46,7 @@ export const WelcomeScreen = () => {
         <LinkButton
           title="Login"
           sx={styles.linkButton}
-          handleButtonClick={() => setIsOpenLoginModal(true)}
+          handleButtonClick={() => navigate("/dashboard")}
         />
       </Box>
       <Box sx={styles.content}>
