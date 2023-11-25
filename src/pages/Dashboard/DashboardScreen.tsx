@@ -203,7 +203,6 @@ export const DashboardScreen = () => {
           style={{
             width: "50%",
             height: "79%",
-            backgroundColor: COLORS.BLACK,
             borderRadius: "10px",
           }}
         >
@@ -215,9 +214,10 @@ export const DashboardScreen = () => {
             alt="map"
             sx={{
               height: "100%",
-              width: "100%",
+              width: "95%",
               alignSelf: "center",
               borderRadius: "10px",
+              marginLeft: "30px",
             }}
           ></Box>
         </Box>
