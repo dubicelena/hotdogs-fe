@@ -3,15 +3,43 @@ import { styles } from "./style/modal";
 import { TEXT } from "../constants/Text";
 import PrimaryButton from "./Buttons/PrimaryButton";
 import logo from "../assets/logo.png";
+import axios from "axios";
 
 // import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
   open: boolean;
   onClose?: () => void;
+  setIsOpenProfileModal: (value: boolean) => void;
+  data: any;
+  setUpdateData?: (value: boolean) => void;
+  fromRequest?: boolean;
 }
 
-export const ProfileModal = ({ open, onClose }: Props) => {
+export const ProfileModal = ({
+  open,
+  onClose,
+  setIsOpenProfileModal,
+  data,
+  setUpdateData,
+  fromRequest,
+}: Props) => {
+  const loggedUserId = localStorage.getItem("userId");
+
+  const sendRequest = async () => {
+    await axios({
+      method: "post",
+      url: `http://192.168.17.45:9099/api/v0/match-requests/${loggedUserId}/${data.id}`,
+    })
+      .then((response) => {
+        setIsOpenProfileModal(false);
+        setUpdateData && setUpdateData(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   return (
     <Modal open={open} onClose={onClose}>
       <Box sx={styles.containerProfile}>
@@ -51,23 +79,21 @@ export const ProfileModal = ({ open, onClose }: Props) => {
                 ml: "30px",
               }}
             >
-              <Typography>Ime:</Typography>
-              <Typography>Prezime:</Typography>
-              <Typography>Ime Psa:</Typography>
-              <Typography>Broj telefona:</Typography>
-              <Typography>Vakcinacija:</Typography>
-              <Typography>Rasa:</Typography>
-              <Typography>Lokacija:</Typography>
-              <Typography>Rodjendan:</Typography>
+              <Typography>Ime: {data.firstName}</Typography>
+              <Typography>Prezime: {data.lastName}</Typography>
+              <Typography>Ime Psa: {data.dogName}</Typography>
+              <Typography>Broj telefona: {data.phoneNumber}</Typography>
+              <Typography>
+                Vakcinacija: {data.vaccinated ? data.vaccinated : false}
+              </Typography>
+              <Typography>Rasa: {data.breed.name}</Typography>
+              <Typography>Rodjendan: {data.dateOfBirth}</Typography>
             </Box>
           </Box>
           <Box sx={{ mt: "20px", ml: "10px", mr: "10px", textAlign: "center" }}>
-            <Typography>
-              f;aiohgflahslghaslghklashgklas
-              hlgkhsalhglashlgkhaslghal;shglkashlkgahslghlak
-              hglkashglkashsglakhgsalk;hasl;
-            </Typography>
+            <Typography>{data.description ? data.description : ""}</Typography>
           </Box>
+
           <Box
             sx={{
               display: "flex",
@@ -75,18 +101,20 @@ export const ProfileModal = ({ open, onClose }: Props) => {
               p: 1,
             }}
           >
+            {!fromRequest && (
+              <PrimaryButton
+                title="Yes"
+                handleButtonClick={() => sendRequest()}
+                sx={{
+                  width: "80%",
+                  mt: "20px",
+                  mr: "20px",
+                }}
+              />
+            )}
             <PrimaryButton
-              title="Yes"
-              // handleButtonClick={() => setIsOpenregistratinModal(true)}
-              sx={{
-                width: "80%",
-                mt: "20px",
-                mr: "20px",
-              }}
-            />
-            <PrimaryButton
-              title="No"
-              // handleButtonClick={() => setIsOpenregistratinModal(true)}
+              title={!fromRequest ? "No" : "Cancel"}
+              handleButtonClick={() => setIsOpenProfileModal(false)}
               sx={{
                 width: "80%",
                 mt: "20px",

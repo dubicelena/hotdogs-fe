@@ -1,54 +1,35 @@
 import {
   Box,
-  Button,
-  Divider,
-  FormControl,
   IconButton,
   InputAdornment,
-  InputLabel,
-  MenuItem,
   Modal,
-  Select,
   TextField,
   Typography,
 } from "@mui/material";
 import { styles } from "./style/modal";
 import { TEXT } from "../constants/Text";
 import PrimaryButton from "./Buttons/PrimaryButton";
-import { COLORS } from "../constants/Colors";
 import { useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-
-// import CloseIcon from "@mui/icons-material/Close";
-
-interface Message {
-  show: boolean;
-  text: string | null;
-}
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   open: boolean;
   isLogin?: boolean;
-  // sx?: SxProps<Theme>;
   onClose?: () => void;
 }
 
 export const LoginModal = ({ open, onClose, isLogin = true }: Props) => {
-  const [showLogin, setShowLogin] = useState(isLogin);
   const [showPassword, setShowPassword] = useState(false);
   const [capsLocked, setCapsLocked] = useState(false);
   const [validated, setValidated] = useState({
-    firstName: false,
-    lastName: false,
     email: false,
     password: false,
   });
   const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
     email: "",
     password: "",
   });
@@ -56,37 +37,32 @@ export const LoginModal = ({ open, onClose, isLogin = true }: Props) => {
     email: false,
     password: false,
   });
-  const [message, setMessage] = useState({
-    show: false,
-    text: null,
-  });
 
-  const [providerValidated, setProviderValidated] = useState({
-    firstName: false,
-    lastName: false,
-    companyName: true,
-    contactName: true,
-    phone: true,
-    email: false,
-    password: false,
-  });
-
-  const [registrationPasswordError, setRegistrationPasswordError] =
-    useState(false);
+  const navigate = useNavigate();
 
   const passwordRegex =
     /^(?=.*[0-9])(?=.*[.!@#$%^&*])[a-zA-Z0-9.!@#$%^&*]{8,}$/;
   const emailRegex =
     /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  const handleChange = (e: any) => {
-    setMessage({
-      show: false,
-      text: null,
-      // severity: undefined,
-    });
-    setRegistrationPasswordError(!passwordRegex.test(e.target.value));
+  const login = async () => {
+    await axios({
+      method: "post",
+      url: "http://192.168.17.45:9099/login",
+      data: user,
+    })
+      .then((response) => {
+        localStorage.setItem("userId", JSON.stringify(response.data.id));
+        localStorage.setItem("userName", JSON.stringify(response.data.dogName));
+        localStorage.setItem("userEmail", JSON.stringify(response.data.email));
+        if (response.status === 200) navigate("/dashboard");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
+  const handleChange = (e: any) => {
     setUser({
       ...user,
       [e.target.id]: e.target.value,
@@ -112,12 +88,6 @@ export const LoginModal = ({ open, onClose, isLogin = true }: Props) => {
         return setValidated({ ...validated, [e.target.id]: true });
       case "lastName":
         return setValidated({ ...validated, [e.target.id]: true });
-      case "companyName":
-        return setValidated({ ...providerValidated, [e.target.id]: true });
-      case "contactName":
-        return setValidated({ ...providerValidated, [e.target.id]: true });
-      case "phone":
-        return setValidated({ ...providerValidated, [e.target.id]: true });
     }
   };
 
@@ -137,18 +107,11 @@ export const LoginModal = ({ open, onClose, isLogin = true }: Props) => {
             label="Email"
             name="email"
             autoComplete="email"
-            autoFocus={showLogin}
             color="secondary"
             onChange={handleChange}
             onKeyUp={(event) => {
               setCapsLocked(event.getModifierState("CapsLock"));
             }}
-            error={!validated.email && touched.email ? true : false}
-            helperText={
-              !validated.email && touched.email
-                ? "Please enter a valid email adress"
-                : ""
-            }
             InputProps={{
               sx: styles.textFieldInputLogin,
             }}
@@ -168,10 +131,6 @@ export const LoginModal = ({ open, onClose, isLogin = true }: Props) => {
             onKeyUp={(event) => {
               setCapsLocked(event.getModifierState("CapsLock"));
             }}
-            error={!validated.password && touched.password ? true : false}
-            helperText={
-              !validated.password && touched.password ? "Invalid password" : ""
-            }
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -202,7 +161,7 @@ export const LoginModal = ({ open, onClose, isLogin = true }: Props) => {
           />
           <PrimaryButton
             title="Login"
-            // handleButtonClick={() => setIsOpenregistratinModal(true)}
+            handleButtonClick={() => login()}
             sx={{
               width: "100%",
               mt: "20px",

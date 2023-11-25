@@ -2,13 +2,23 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import PetsIcon from "@mui/icons-material/Pets";
-import dog from "../../assets/dog.jpg";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import { COLORS } from "../../constants/Colors";
 
-export default function CardDog() {
+interface Props {
+  setIsOpenProfileModal: (value: boolean) => void;
+  data: any;
+  setProfileID: (value: number) => void;
+}
+
+export const CardDog = ({
+  setIsOpenProfileModal,
+  data,
+  setProfileID,
+}: Props) => {
   const number = Math.floor(1 + Math.random() * 5);
   const array = Array.from({ length: number });
+
   return (
     <Card
       style={{
@@ -25,12 +35,12 @@ export default function CardDog() {
           color: COLORS.BLACK,
         }}
       >
-        Rex
+        {data.dogName}
       </Typography>
       <CardMedia
         component="img"
         height="194"
-        image={dog}
+        image={`data:image/jpeg;base64,${data.photo}`}
         alt="Paella dish"
         style={{ borderRadius: "8px" }}
       />
@@ -42,7 +52,13 @@ export default function CardDog() {
           justifyContent: "space-between",
         }}
       >
-        <PrimaryButton title="View more" />
+        <PrimaryButton
+          title="View more"
+          handleButtonClick={() => {
+            setIsOpenProfileModal(true);
+            setProfileID(data.id);
+          }}
+        />
         <div
           style={{
             width: "20%",
@@ -57,4 +73,4 @@ export default function CardDog() {
       </div>
     </Card>
   );
-}
+};

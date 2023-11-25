@@ -69,6 +69,8 @@ export const WelcomeScreen = () => {
         <RegistrationModal
           open={isOpenRegistrationModal}
           onClose={() => setIsOpenRegistrationModal(false)}
+          setOpen={setIsOpenRegistrationModal}
+          setOpenLogin={setIsOpenLoginModal}
         />
       )}
       {isOpenLoginModal && (
