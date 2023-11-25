@@ -15,10 +15,9 @@ export const styles = {
     display: "flex",
     flexDirection: "column",
     mb: { xs: 0, sm: "50px" },
-    mt: "40px",
-    padding: 4,
+    p: 5,
     backgroundColor: "#F4F4F9",
-    height: "100%",
+    height: "84vh",
   },
   leftSideContainer: {
     display: "flex",

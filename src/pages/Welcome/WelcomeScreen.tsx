@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import LinkButton from "../../components/Buttons/LinkButton";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
