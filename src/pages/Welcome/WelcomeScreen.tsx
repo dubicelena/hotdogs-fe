@@ -1,28 +1,36 @@
 import { Box, Typography } from "@mui/material";
 import logo from "../../assets/logo.png";
-import LinkButton from "../../components/Buttons/LinkButton";
+import backgroundImage from "../../assets/backgroundImage.png";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import { useState } from "react";
 import { RegistrationModal } from "../../components/RegistrationModal";
 import { LoginModal } from "../../components/LoginModal";
 import { useNavigate } from "react-router-dom";
+import { COLORS } from "../../constants/Colors";
 
 const styles = {
   container: {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
+    height: "100vh",
+    backgroundImage: `url(${backgroundImage})`,
   },
   content: {
-    width: "100%",
+    width: "38%",
     height: "70vh",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
+    alignSelf: "center",
+    // backgroundColor: "white",
   },
   image: {
-    marginTop: "20px",
+    marginTop: "-3px",
+    height: "570px",
+    width: "570px",
+    borderRadius: "500px",
   },
   text: {
     fontSize: "32px",
@@ -31,7 +39,13 @@ const styles = {
     marginBottom: "20px",
   },
   linkButton: {
-    margin: "20px 20px 0px",
+    margin: "20px 40px -13px",
+    backgroundColor: COLORS.BLACK,
+    width: "50%",
+    "&:hover": {
+      backgroundColor: COLORS.PINK,
+      opacity: 1,
+    },
   },
 };
 
@@ -43,11 +57,12 @@ export const WelcomeScreen = () => {
   return (
     <Box sx={styles.container}>
       <Box>
-        <LinkButton
+        <PrimaryButton
           title="Login"
           sx={styles.linkButton}
-          // handleButtonClick={() => setIsOpenLoginModal(true)}
-          handleButtonClick={() => navigate("/profile")}
+          handleButtonClick={() => {
+            setIsOpenLoginModal(true);
+          }}
         />
       </Box>
       <Box sx={styles.content}>
@@ -63,6 +78,13 @@ export const WelcomeScreen = () => {
         <PrimaryButton
           title="Create account"
           handleButtonClick={() => setIsOpenRegistrationModal(true)}
+          sx={{
+            mb: "30px",
+            "&:hover": {
+              backgroundColor: COLORS.PINK,
+              opacity: 1,
+            },
+          }}
         />
       </Box>
       {isOpenRegistrationModal && (
