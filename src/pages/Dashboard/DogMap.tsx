@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer } from "react-leaflet";
+// import { MapContainer, TileLayer } from "react-leaflet";
 
 export const DogMap = () => {
   const position = [51.505, -0.09];
