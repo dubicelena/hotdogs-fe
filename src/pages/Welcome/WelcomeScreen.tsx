@@ -1,11 +1,11 @@
 import { Box, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import LinkButton from "../../components/Buttons/LinkButton";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import { useState } from "react";
 import { RegistrationModal } from "../../components/RegistrationModal";
 import { LoginModal } from "../../components/LoginModal";
-import { useNavigate } from "react-router-dom";
 
 const styles = {
   container: {
@@ -47,7 +47,7 @@ export const WelcomeScreen = () => {
           title="Login"
           sx={styles.linkButton}
           // handleButtonClick={() => setIsOpenLoginModal(true)}
-          handleButtonClick={() => navigate('/chat')}
+          handleButtonClick={() => navigate("/chat")}
         />
       </Box>
       <Box sx={styles.content}>

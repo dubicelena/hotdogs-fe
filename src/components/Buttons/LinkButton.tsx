@@ -1,5 +1,4 @@
 import { Typography, Button, SxProps, Theme } from "@mui/material";
-import { useState } from "react";
 import { COLORS } from "../../constants/Colors";
 interface Props {
   title: string;
@@ -25,16 +24,12 @@ const style = {
 };
 
 const LinkButton = ({ title, sx, handleButtonClick }: Props) => {
-  const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => {
-    setIsClicked(true);
     if (handleButtonClick) {
       handleButtonClick();
     }
-    setTimeout(() => {
-      setIsClicked(false);
-    }, 1000);
   };
+
   return (
     <Button sx={{ ...style.button, ...sx }} onClick={handleClick}>
       <Typography
@@ -47,4 +42,5 @@ const LinkButton = ({ title, sx, handleButtonClick }: Props) => {
     </Button>
   );
 };
+
 export default LinkButton;
