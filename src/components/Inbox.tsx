@@ -4,27 +4,23 @@ import { useEffect, useState, useRef } from "react";
 export const Inbox = () => {
   const inboxEl: any = useRef();
   const [talkLoaded, markTalkLoaded] = useState(false);
+  const userId = localStorage.getItem("userId");
+  const userName = localStorage.getItem("userName");
+  const userEmail = localStorage.getItem("userEmail");
 
   useEffect(() => {
     Talk.ready.then(() => markTalkLoaded(true));
 
-    if (talkLoaded) {
+    if (
+      talkLoaded &&
+      userId !== null &&
+      userName !== null &&
+      userEmail !== null
+    ) {
       const currentUser = new Talk.User({
-        id: "2",
-        name: "John",
-        email: ["admin@gmail.com"],
-        // photoUrl: "henry.jpeg",
-        // welcomeMessage: "Hello!",
-        // role: "default",
-      });
-
-      const otherUser = new Talk.User({
-        id: "3",
-        name: "Jessica Wells",
-        email: "jessicawells@example.com",
-        photoUrl: "jessica.jpeg",
-        welcomeMessage: "Hello!",
-        role: "default",
+        id: userId,
+        name: userName,
+        email: [userEmail],
       });
 
       const session = new Talk.Session({
@@ -32,19 +28,12 @@ export const Inbox = () => {
         me: currentUser,
       });
 
-      //   const conversationId = Talk.oneOnOneId(currentUser, otherUser);
-      const conversationId = "2_5";
-      const conversation = session.getOrCreateConversation(conversationId);
-      conversation.setParticipant(currentUser);
-      conversation.setParticipant(otherUser);
-
       const chatbox = session.createInbox();
-      chatbox.select(conversation);
       chatbox.mount(inboxEl.current);
 
       return () => session.destroy();
     }
-  }, [talkLoaded]);
+  }, [talkLoaded, userEmail, userId, userName]);
 
   return <div ref={inboxEl} style={{ flex: 1, height: "800px" }} />;
 };

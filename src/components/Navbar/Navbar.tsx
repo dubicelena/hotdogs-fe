@@ -1,6 +1,7 @@
 import { AppBar, Toolbar } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { COLORS } from "../../constants/Colors";
+import axios from "axios";
 
 const styles = {
   container: {
@@ -41,6 +42,21 @@ const styles = {
 
 export const Navbar = () => {
   const location = useLocation();
+
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    await axios({
+      method: "post",
+      url: "http://192.168.17.45:9099/logout",
+    })
+      .then((response) => {
+        navigate("/");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <div>
@@ -91,7 +107,7 @@ export const Navbar = () => {
               </div>
             </div>
             <div style={styles.logout}>
-              <Link to="/" style={styles.activeMenuItem}>
+              <Link to="/" style={styles.activeMenuItem} onClick={logout}>
                 LOGOUT
               </Link>
             </div>
