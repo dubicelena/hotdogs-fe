@@ -5,6 +5,7 @@ import PrimaryButton from "../../components/Buttons/PrimaryButton";
 import { useState } from "react";
 import { RegistrationModal } from "../../components/RegistrationModal";
 import { LoginModal } from "../../components/LoginModal";
+import { useNavigate } from "react-router-dom";
 
 const styles = {
   container: {
@@ -37,6 +38,7 @@ const styles = {
 export const WelcomeScreen = () => {
   const [isOpenRegistrationModal, setIsOpenRegistrationModal] = useState(false);
   const [isOpenLoginModal, setIsOpenLoginModal] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Box sx={styles.container}>
@@ -44,7 +46,8 @@ export const WelcomeScreen = () => {
         <LinkButton
           title="Login"
           sx={styles.linkButton}
-          handleButtonClick={() => setIsOpenLoginModal(true)}
+          // handleButtonClick={() => setIsOpenLoginModal(true)}
+          handleButtonClick={() => navigate("/profile")}
         />
       </Box>
       <Box sx={styles.content}>
