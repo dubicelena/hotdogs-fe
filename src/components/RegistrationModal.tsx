@@ -15,27 +15,29 @@ import { styles } from "./style/modal";
 import { TEXT } from "../constants/Text";
 import PrimaryButton from "./Buttons/PrimaryButton";
 import { COLORS } from "../constants/Colors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import KeyboardCapslockIcon from "@mui/icons-material/KeyboardCapslock";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-// import CloseIcon from "@mui/icons-material/Close";
-
-interface Message {
-  show: boolean;
-  text: string | null;
-}
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   open: boolean;
   isLogin?: boolean;
-  // sx?: SxProps<Theme>;
   onClose?: () => void;
+  setOpen: (value: boolean) => void;
+  setOpenLogin: (value: boolean) => void;
 }
 
-export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
-  const [showLogin, setShowLogin] = useState(isLogin);
+export const RegistrationModal = ({
+  open,
+  onClose,
+  isLogin = true,
+  setOpen,
+  setOpenLogin,
+}: Props) => {
+  const [breed, setBreed] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [capsLocked, setCapsLocked] = useState(false);
   const [validated, setValidated] = useState({
@@ -43,56 +45,78 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
     lastName: false,
     email: false,
     password: false,
+    phoneNumber: false,
+    dogName: false,
+    dateOfBirth: false,
+    gender: false,
+    breedId: false,
+    address: false,
   });
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
+    phoneNumber: "",
+    dogName: "",
+    dateOfBirth: "",
+    gender: "",
+    breedId: 0,
+    address: "",
   });
   const [touched, setTouched] = useState({
     email: false,
     password: false,
   });
-  const [message, setMessage] = useState({
-    show: false,
-    text: null,
-  });
 
-  const [providerValidated, setProviderValidated] = useState({
-    firstName: false,
-    lastName: false,
-    companyName: true,
-    contactName: true,
-    phone: true,
-    email: false,
-    password: false,
-  });
-
-  const [registrationPasswordError, setRegistrationPasswordError] =
-    useState(false);
+  const navigate = useNavigate();
 
   const passwordRegex =
     /^(?=.*[0-9])(?=.*[.!@#$%^&*])[a-zA-Z0-9.!@#$%^&*]{8,}$/;
   const emailRegex =
     /^(([^<>()[\]\\.,;:\s@']+(\.[^<>()[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-  const handleChange = (e: any) => {
-    setMessage({
-      show: false,
-      text: null,
-      // severity: undefined,
-    });
-    setRegistrationPasswordError(!passwordRegex.test(e.target.value));
+  const register = async () => {
+    await axios({
+      method: "post",
+      url: "http://192.168.17.45:9099/register",
+      data: user,
+    })
+      .then((response) => {
+        console.log(user);
+        if (response.status === 200) {
+          navigate("/");
+          setOpen(false);
+          setOpenLogin(true);
+        }
+      })
+      .catch((e) => {
+        console.log(user);
+        console.log(e);
+      });
+  };
 
+  const getBreed = async () => {
+    await axios({
+      method: "get",
+      url: "http://192.168.17.45:9099/api/v0/breeds",
+    })
+      .then((response) => {
+        setBreed(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    getBreed();
+  }, []);
+
+  const handleChange = (e: any) => {
     setUser({
       ...user,
-      [e.target.id]: e.target.value,
-    });
-
-    setTouched({
-      ...touched,
-      [e.target.id]: true,
+      [e.target.name]: e.target.value,
     });
 
     switch (e.target.id) {
@@ -110,12 +134,6 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
         return setValidated({ ...validated, [e.target.id]: true });
       case "lastName":
         return setValidated({ ...validated, [e.target.id]: true });
-      case "companyName":
-        return setValidated({ ...providerValidated, [e.target.id]: true });
-      case "contactName":
-        return setValidated({ ...providerValidated, [e.target.id]: true });
-      case "phone":
-        return setValidated({ ...providerValidated, [e.target.id]: true });
     }
   };
 
@@ -143,18 +161,11 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
               label="Email"
               name="email"
               autoComplete="email"
-              autoFocus={showLogin}
               color="secondary"
               onChange={handleChange}
               onKeyUp={(event) => {
                 setCapsLocked(event.getModifierState("CapsLock"));
               }}
-              error={!validated.email && touched.email ? true : false}
-              helperText={
-                !validated.email && touched.email
-                  ? "Please enter a valid email adress"
-                  : ""
-              }
               InputProps={{
                 sx: styles.textFieldInputRegistration,
               }}
@@ -174,12 +185,6 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
               onKeyUp={(event) => {
                 setCapsLocked(event.getModifierState("CapsLock"));
               }}
-              error={!validated.password && touched.password ? true : false}
-              helperText={
-                !validated.password && touched.password
-                  ? "Invalid password"
-                  : ""
-              }
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -243,9 +248,9 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
             <TextField
               fullWidth
               margin="normal"
-              id="mobilePhone"
+              id="phoneNumber"
               label="Mobile phone"
-              name="mobilePhone"
+              name="phoneNumber"
               aria-labelledby="mobilePhone"
               color="secondary"
               onChange={handleChange}
@@ -283,7 +288,6 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
               fullWidth
               margin="normal"
               id="dateOfBirth"
-              // label="Date of birth"
               name="dateOfBirth"
               type="date"
               aria-labelledby="dateOfBirth"
@@ -292,14 +296,6 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    {/* <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => {}}
-                      edge="end"
-                      sx={{}}
-                    >
-                      <CalendarMonthIcon color="secondary" />
-                    </IconButton> */}
                     {capsLocked ? (
                       <KeyboardCapslockIcon
                         color="secondary"
@@ -328,6 +324,7 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
               <Select
                 fullWidth
                 id="gender"
+                value={user.gender}
                 label="Gender"
                 name="gender"
                 aria-labelledby="gender"
@@ -341,8 +338,8 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Male</MenuItem>
-                <MenuItem value={20}>Female</MenuItem>
+                <MenuItem value="Male">Male</MenuItem>
+                <MenuItem value="Female">Female</MenuItem>
               </Select>
             </FormControl>
             <FormControl
@@ -358,10 +355,11 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
               <InputLabel>Breed</InputLabel>
               <Select
                 fullWidth
-                id="breed"
+                id="breedId"
+                value={user.breedId}
                 label="Breed"
-                name="breed"
-                aria-labelledby="breed"
+                name="breedId"
+                aria-labelledby="breedId"
                 color="secondary"
                 onChange={handleChange}
                 onKeyUp={(event) => {
@@ -369,19 +367,19 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
                 }}
                 sx={{ height: "50px" }}
               >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>zlatni retriver</MenuItem>
-                <MenuItem value={20}>pudlica</MenuItem>
+                {breed.map((item: any) => (
+                  <MenuItem id="breedId" key={item.id} value={item.id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
             <TextField
               fullWidth
               margin="normal"
-              id="location"
+              id="address"
               label="Location"
-              name="location"
+              name="address"
               aria-labelledby="location"
               color="secondary"
               onChange={handleChange}
@@ -396,7 +394,9 @@ export const RegistrationModal = ({ open, onClose, isLogin = true }: Props) => {
         </Box>
         <PrimaryButton
           title="Registration Now"
-          // handleButtonClick={() => setIsOpenregistratinModal(true)}
+          handleButtonClick={() => {
+            register();
+          }}
           sx={{
             width: "100%",
             mt: "20px",
