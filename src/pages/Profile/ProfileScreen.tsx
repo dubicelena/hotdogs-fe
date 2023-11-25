@@ -32,198 +32,15 @@ export const ProfileScreen = (): JSX.Element => {
   const date = `${current.getFullYear()}-0${
     current.getMonth() + 1
   }-0${current.getDate()}`;
-
-  const [isChange, setIsChange] = useState(false);
-  const [idValue, setIdValue] = useState<any>("");
-  const [emailValue, setEmailValue] = useState<any>("");
-  const [firstNameValue, setFirstNameValue] = useState<any>("");
-  const [lastNameValue, setLastNameValue] = useState<any>("");
-  const [birthDateValue, setBirthDateValue] = useState<any>(date);
-  const [addressValue, setAddressValue] = useState<any>("");
-  const [cityValue, setCityValue] = useState<any>("");
-  const [stateValue, setStateValue] = useState<any>("");
-  const [zipCodeValue, setZipCodeValue] = useState<any>("");
-  const [driverLicenseValue, setDriverLicenseValue] = useState<any>("");
-  const [driverLicenseStateValue, setDriverLicenseStateValue] =
-    useState<any>("");
-  const [phoneValue, setPhoneValue] = useState<any>("");
-  const [occupationValue, setOccupationValue] = useState<any>("");
-
-  const onChangeFirstName = (e: any) => {
-    console.log(e.target);
-    setFirstNameValue(e.target.value);
-    setIsChange(true);
-  };
-
-  const onChangeLastName = (e: any) => {
-    console.log(e.target);
-    setLastNameValue(e.target.value);
-    setIsChange(true);
-  };
-
-  const onChangeDateOfBirth = (e: any) => {
-    setBirthDateValue(e.target.value);
-    setIsChange(true);
-  };
-
-  const onChangeAddress = (e: any) => {
-    setAddressValue(e.target.value);
-    setIsChange(true);
-  };
-  const onChangeCity = (e: any) => {
-    setCityValue(e.target.value);
-    setIsChange(true);
-  };
-
-  const onChangeState = (e: any) => {
-    setStateValue(e.target.value);
-    setIsChange(true);
-  };
-
-  const onChangeZipCode = (e: any) => {
-    setZipCodeValue(e.target.value);
-    setIsChange(true);
-  };
-
-  const onChangeDriverLicense = (e: any) => {
-    setDriverLicenseValue(e.target.value);
-    setIsChange(true);
-  };
-
-  const onChangeDriverLicenseState = (e: any) => {
-    setDriverLicenseStateValue(e.target.value);
-    setIsChange(true);
-  };
-
-  const onChangePhone = (e: any) => {
-    setPhoneValue(e.target.value);
-    setIsChange(true);
-  };
-
-  const onChangeOccupation = (e: any) => {
-    setOccupationValue(e.target.value);
-    setIsChange(true);
-  };
-
-  // const getUserOurForm = () => {
-  //   const token = window.localStorage.getItem("token");
-  //   if (token !== null) {
-  //     http.get("/api/v1/user/login", {}, { token: token }).then((res: any) => {
-  //       setIdValue(res.data.id);
-  //       setEmailValue(res.data.email);
-  //       setFirstNameValue(res.data.first_name);
-  //       setLastNameValue(res.data.last_name);
-  //       // setBirthDateValue(res.data.birth_date);
-  //       setAddressValue(res.data.address);
-  //       setCityValue(res.data.city);
-  //       setStateValue(res.data.state);
-  //       setZipCodeValue(res.data.zip_code);
-  //       setDriverLicenseValue(res.data.drivers_licence);
-  //       setDriverLicenseStateValue(res.data.drivers_licence_state);
-  //       setPhoneValue(res.data.phone);
-  //       setOccupationValue(res.data.occupation);
-  //     });
-  //   }
-  // };
-
-  // const getUserDefaultForm = () => {
-  //   const accountToken = window.localStorage.getItem("accountToken");
-  //   if (accountToken !== null) {
-  //     const userObj: any = jwt_decode(accountToken);
-  //     const email: string = userObj.email
-  //       ? userObj.email
-  //       : userObj.preferred_username;
-  //     axiosConfig
-  //       .get(`/api/v1/user/get_by_email?email=${email}`)
-  //       .then((res: any) => {
-  //         console.log(email);
-  //         setIdValue(res.data.id);
-  //         setEmailValue(res.data.email);
-  //         setFirstNameValue(res.data.first_name);
-  //         setLastNameValue(res.data.last_name);
-  //         // setBirthDateValue(res.data.birth_date.split("T")[0]);
-  //         setAddressValue(res.data.address);
-  //         setCityValue(res.data.city);
-  //         setStateValue(res.data.state);
-  //         setZipCodeValue(res.data.zip_code);
-  //         setDriverLicenseValue(res.data.drivers_licence);
-  //         setDriverLicenseStateValue(res.data.drivers_licence_state);
-  //         setPhoneValue(res.data.phone);
-  //         setOccupationValue(res.data.occupation);
-  //       });
-  //   }
-  // };
-
-  const onClickCancel = () => {
-    // getUserDefaultForm();
-    setIsChange(false);
-  };
-
-  const onClickSave = () => {
-    // updateUserPersonalInfo();
-    setIsChange(false);
-  };
-
-  // const updateUserPersonalInfo = () => {
-  //   const updateUrl = `/api/v1/user/update_base_info/${idValue}`;
-  //   axiosConfig
-  //     .patch(updateUrl, {
-  //       first_name: firstNameValue,
-  //       last_name: lastNameValue,
-  //       // birth_date: birthDateValue,
-  //       address: addressValue,
-  //       city: cityValue,
-  //       state: stateValue,
-  //       zip_code: zipCodeValue,
-  //       drivers_licence: driverLicenseValue,
-  //       drivers_licence_state: driverLicenseStateValue,
-  //       phone: phoneValue,
-  //       occupation: occupationValue,
-  //     })
-  //     .then((response) => console.log(response.data))
-  //     .catch((error) => console.error(error));
-  // };
-
-  const [files, setFiles] = useState<File[]>([]);
-  const [isUploadFile, setIsUploadFile] = useState(false);
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsUploadFile(false);
-    if (e.target.files) {
-      const selectedFiles = Array.from(e.target.files);
-      setFiles(selectedFiles);
-    }
-  };
-
-  // const handleUploadFiles = async () => {
-  //   if (!files.length) {
-  //     return;
-  //   }
-
-  //   const url = "/api/v1/form/upload_policy";
-  //   const formData = new FormData();
-
-  //   files.forEach((file) => {
-  //     formData.append("documents", file);
-  //   });
-
-  //   const config = {
-  //     headers: {
-  //       "Content-Type": "multipart/form-data",
-  //       Accept: "multipart/form-data",
-  //     },
-  //   };
-
-  //   axiosConfig.post(url, formData, config).then((response) => {
-  //     setIsUploadFile(true);
-  //     console.log(response.data);
-  //   });
-  // };
-
-  useEffect(() => {
-    // getUserOurForm();
-    // getUserDefaultForm();
-  }, []);
+  const dogName = localStorage.getItem("userName");
+  const email = localStorage.getItem("userEmail");
+  const firstName = localStorage.getItem("userFirstName");
+  const lastName = localStorage.getItem("userLastName");
+  const breed = localStorage.getItem("userBreed");
+  const gender = localStorage.getItem("userGender");
+  const dateOfBirth = localStorage.getItem("userDateOfBirth");
+  const phoneNumber = localStorage.getItem("userMobilePhone");
+  const description = localStorage.getItem("userDescription");
 
   return (
     <Box sx={styles.rightSideContainer}>
@@ -267,10 +84,10 @@ export const ProfileScreen = (): JSX.Element => {
             <Typography sx={{ fontWeight: "bold", mb: "10px" }}>
               User informations
             </Typography>
-            <Typography>Email: </Typography>
-            <Typography>First name:</Typography>
-            <Typography>Last name:</Typography>
-            <Typography>Mobile phone:</Typography>
+            <Typography>Email: {email}</Typography>
+            <Typography>First name: {firstName}</Typography>
+            <Typography>Last name: {lastName}</Typography>
+            <Typography>Mobile phone: {phoneNumber}</Typography>
           </Box>
           <Box
             sx={{
@@ -282,11 +99,10 @@ export const ProfileScreen = (): JSX.Element => {
             <Typography sx={{ fontWeight: "bold", mb: "10px" }}>
               Pet informations
             </Typography>
-            <Typography>Name: </Typography>
-            <Typography>Date of birth:</Typography>
-            <Typography>Breed:</Typography>
-            <Typography>Gender:</Typography>
-            <Typography>Locarion:</Typography>
+            <Typography>Name: {dogName}</Typography>
+            <Typography>Date of birth: {dateOfBirth}</Typography>
+            <Typography>Breed: {breed}</Typography>
+            <Typography>Gender: {gender}</Typography>
           </Box>
         </Box>
         <Box
@@ -311,7 +127,7 @@ export const ProfileScreen = (): JSX.Element => {
             mt: "10px",
           }}
         >
-          <Typography>flakhhfalhfalhflahlfahlahflhfa</Typography>
+          <Typography></Typography>
         </Box>
         <Box
           sx={{

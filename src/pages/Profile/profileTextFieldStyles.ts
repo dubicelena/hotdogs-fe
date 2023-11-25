@@ -187,6 +187,7 @@ export const styles = {
     height: "200px",
     width: "200px",
     alignSelf: "center",
+    borderRadius: "100px",
   },
 };
 export default styles;

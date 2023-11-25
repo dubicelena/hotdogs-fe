@@ -55,6 +55,34 @@ export const LoginModal = ({ open, onClose, isLogin = true }: Props) => {
         localStorage.setItem("userId", JSON.stringify(response.data.id));
         localStorage.setItem("userName", JSON.stringify(response.data.dogName));
         localStorage.setItem("userEmail", JSON.stringify(response.data.email));
+        localStorage.setItem(
+          "userFirstName",
+          JSON.stringify(response.data.firstName)
+        );
+        localStorage.setItem(
+          "userLastName",
+          JSON.stringify(response.data.lastName)
+        );
+        localStorage.setItem(
+          "userBreed",
+          JSON.stringify(response.data.breed.name)
+        );
+        localStorage.setItem(
+          "userGender",
+          JSON.stringify(response.data.gender)
+        );
+        localStorage.setItem(
+          "userDateOfBirth",
+          JSON.stringify(response.data.dateOfBirth)
+        );
+        localStorage.setItem(
+          "userMobilePhone",
+          JSON.stringify(response.data.phoneNumber)
+        );
+        localStorage.setItem(
+          "userDescription",
+          JSON.stringify(response.data.description)
+        );
         if (response.status === 200) navigate("/dashboard");
       })
       .catch((e) => {
