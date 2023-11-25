@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import LinkButton from "../../components/Buttons/LinkButton";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
@@ -32,10 +33,16 @@ const styles = {
 };
 
 export const WelcomeScreen = () => {
+  const navigate = useNavigate();
+
   return (
     <Box sx={styles.container}>
       <Box>
-        <LinkButton title="Login" sx={styles.linkButton} />
+        <LinkButton
+          title="Login"
+          sx={styles.linkButton}
+          handleButtonClick={() => navigate("/dashboard")}
+        />
       </Box>
       <Box sx={styles.content}>
         <Box

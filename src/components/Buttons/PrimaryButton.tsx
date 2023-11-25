@@ -1,5 +1,4 @@
 import { Typography, Button, Theme, SxProps } from "@mui/material";
-import { useState } from "react";
 import { COLORS } from "../../constants/Colors";
 interface Props {
   title: string;
@@ -26,21 +25,15 @@ const style = {
   },
 };
 const PrimaryButton = ({ title, sx, handleButtonClick }: Props) => {
-  const [isClicked, setIsClicked] = useState(false);
   const handleClick = () => {
-    setIsClicked(true);
     if (handleButtonClick) {
       handleButtonClick();
     }
-    setTimeout(() => {
-      setIsClicked(false);
-    }, 1000);
   };
   return (
     <Button
       sx={{
         ...style.button,
-        // ...(isClicked && style.button["&.clicked"]),
         ...sx,
       }}
       onClick={handleClick}
