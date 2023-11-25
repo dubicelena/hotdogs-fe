@@ -46,8 +46,7 @@ export const WelcomeScreen = () => {
         <LinkButton
           title="Login"
           sx={styles.linkButton}
-          // handleButtonClick={() => setIsOpenLoginModal(true)}
-          handleButtonClick={() => navigate("/chat")}
+          handleButtonClick={() => setIsOpenLoginModal(true)}
         />
       </Box>
       <Box sx={styles.content}>

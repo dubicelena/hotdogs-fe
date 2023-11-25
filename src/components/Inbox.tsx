@@ -46,5 +46,5 @@ export const Inbox = () => {
     }
   }, [talkLoaded]);
 
-  return <div ref={inboxEl} style={{ flex: 1 }} />;
+  return <div ref={inboxEl} style={{ flex: 1, height: "800px" }} />;
 };
