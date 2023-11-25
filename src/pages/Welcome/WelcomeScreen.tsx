@@ -2,6 +2,9 @@ import { Box, Typography } from "@mui/material";
 import logo from "../../assets/logo.png";
 import LinkButton from "../../components/Buttons/LinkButton";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
+import { useState } from "react";
+import { RegistrationModal } from "../../components/RegistrationModal";
+import { LoginModal } from "../../components/LoginModal";
 
 const styles = {
   container: {
@@ -32,10 +35,17 @@ const styles = {
 };
 
 export const WelcomeScreen = () => {
+  const [isOpenRegistrationModal, setIsOpenRegistrationModal] = useState(false);
+  const [isOpenLoginModal, setIsOpenLoginModal] = useState(false);
+
   return (
     <Box sx={styles.container}>
       <Box>
-        <LinkButton title="Login" sx={styles.linkButton} />
+        <LinkButton
+          title="Login"
+          sx={styles.linkButton}
+          handleButtonClick={() => setIsOpenLoginModal(true)}
+        />
       </Box>
       <Box sx={styles.content}>
         <Box
@@ -47,8 +57,23 @@ export const WelcomeScreen = () => {
           sx={styles.image}
         ></Box>
         <Typography sx={styles.text}>SWIPE YOUR DOG</Typography>
-        <PrimaryButton title="Create account" />
+        <PrimaryButton
+          title="Create account"
+          handleButtonClick={() => setIsOpenRegistrationModal(true)}
+        />
       </Box>
+      {isOpenRegistrationModal && (
+        <RegistrationModal
+          open={isOpenRegistrationModal}
+          onClose={() => setIsOpenRegistrationModal(false)}
+        />
+      )}
+      {isOpenLoginModal && (
+        <LoginModal
+          open={isOpenLoginModal}
+          onClose={() => setIsOpenLoginModal(false)}
+        />
+      )}
     </Box>
   );
 };
