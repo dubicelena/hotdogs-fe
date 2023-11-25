@@ -4,6 +4,7 @@ import { WelcomeScreen } from "./pages/Welcome/WelcomeScreen";
 import { ChatScreen } from "./pages/ChatScreen";
 import { DashboardScreen } from "./pages/Dashboard/DashboardScreen";
 import { Navbar } from "./components/Navbar/Navbar";
+import { ProfileScreen } from "./pages/Profile/ProfileScreen";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/" element={<WelcomeScreen />} />
           <Route path="/dashboard" element={<DashboardScreen />} />
           <Route path="/chat" element={<ChatScreen />} />
+          <Route path="/profile" element={<ProfileScreen />} />
         </Routes>
       </Router>
     </>
