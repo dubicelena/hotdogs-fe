@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import LinkButton from "../../components/Buttons/LinkButton";
 import PrimaryButton from "../../components/Buttons/PrimaryButton";
@@ -37,6 +38,7 @@ const styles = {
 export const WelcomeScreen = () => {
   const [isOpenRegistrationModal, setIsOpenRegistrationModal] = useState(false);
   const [isOpenLoginModal, setIsOpenLoginModal] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Box sx={styles.container}>
@@ -44,7 +46,7 @@ export const WelcomeScreen = () => {
         <LinkButton
           title="Login"
           sx={styles.linkButton}
-          handleButtonClick={() => setIsOpenLoginModal(true)}
+          handleButtonClick={() => navigate("/dashboard")}
         />
       </Box>
       <Box sx={styles.content}>
